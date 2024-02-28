@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive AI</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #container {
+      position: relative;
+      width: 4in; /* Set container width to 4 inches */
+      height: 4in; /* Set container height to 4 inches */
+      margin: 0 auto;
+      padding: 0.5in; /* Add padding */
+      background-image: url('https://i.pinimg.com/originals/ac/29/54/ac2954e41a8c2014e006b84a8d217800.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    #ai-icon {
+      width: 1.5in; /* Set AI icon width to 1.5 inches */
+      height: auto;
+      display: block;
+      animation: moveAndBlink 5s infinite alternate;
+      position: absolute;
+      bottom: 0.25in; /* Adjust position */
+      left: 0.25in; /* Adjust position */
+      z-index: 1;
+    }
+    @keyframes moveAndBlink {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-0.1in); /* Adjust translateY */
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    .callout {
+      padding: 0.25in; /* Adjust padding */
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      position: absolute;
+      bottom: 0.75in; /* Adjust position */
+      left: calc(1.5in + 0.5in); /* Adjust position */
+      transform: translateY(50%);
+      z-index: 0;
+    }
+    button {
+      margin: 0.1in; /* Adjust margin */
+      padding: 0.1in 0.2in; /* Adjust padding */
+      background-color: #cccccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #999999;
+    }
+    .button-column {
+      position: absolute;
+      bottom: 0.2in; /* Adjust position */
+      right: 0.2in; /* Adjust position */
+    }
+    .button-column button {
+      display: block;
+      margin-bottom: 0.1in; /* Adjust margin */
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <img id="ai-icon" src="https://media4.giphy.com/media/nQASPLzc7zbJpqjZDX/giphy.gif?cid=6c09b952rawtevi9cjdcenh9k5ztjrpkb5z411n7xo2ri785&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s" alt="AI Icon">
+  <div id="response" class="callout">
+    <p id="greeting">Hey, Yanyan!</p> <!-- Greeting displayed in the callout -->
+  </div>
+</div>
+
+<div class="button-column">
+  <button id="advice-btn">Give Advice</button>
+  <button id="activity-btn">Give Activity</button>
+</div>
+
+<script>
+  var adviceList = [
+    "Embrace failure as a stepping stone to success, Yanyan",
+    "Practice gratitude daily, Yanyan",
+    "Always be curious and never stop learning, Yanyan",
+    "Surround yourself with positive influences, Yanyan",
+    "Take care of your physical health, Yanyan",
+    "Set clear, achievable goals, Yanyan",
+    "Trust your instincts, Yanyan",
+    "Prioritize quality over quantity, Yanyan",
+    "Invest in meaningful relationships, Yanyan",
+    "Learn to say no when necessary, Yanyan",
+    "Take calculated risks, Yanyan",
+    "Stay humble, but confident, Yanyan",
+    "Be adaptable to change, Yanyan",
+    "Find time for solitude and reflection, Yanyan",
+    "Keep a journal to track your progress, Yanyan",
+    "Foster empathy and understanding, Yanyan",
+    "Take breaks to recharge, Yanyan",
+    "Seek feedback and constructive criticism, Yanyan",
+    "Don't compare yourself to others, Yanyan",
+    "Practice active listening, Yanyan",
+    "Cultivate patience and resilience, Yanyan",
+    "Be kind to yourself and others, Yanyan",
+    "Set boundaries to protect your time and energy, Yanyan",
+    "Celebrate small victories along the way, Yanyan",
+    "Stay organized and prioritize tasks, Yanyan",
+    "Practice mindfulness and meditation, Yanyan",
+    "Don't be afraid to ask for help, Yanyan",
+    "Focus on solutions, not problems, Yanyan"
+  ];
+
+  var activityList = [
+    "Watch a funny movie or TV show, Yanyan",
+    "Take up a hobby you enjoy, like painting or cooking, Yanyan",
+    "Go for a bike ride or a hike in nature, Yanyan",
+    "Try a new recipe and cook yourself a delicious meal, Yanyan",
+    "Practice mindfulness or meditation for a few minutes, Yanyan",
+    // Add more activities here
+    "Read a book you've been meaning to read, Yanyan",
+    "Write in a journal about your thoughts and feelings, Yanyan",
+    "Do some yoga or stretching exercises, Yanyan",
+    "Visit a museum or art gallery, Yanyan",
+    "Listen to your favorite music and dance around the house, Yanyan",
+    "Volunteer for a cause you care about, Yanyan",
+    "Start a DIY project or home improvement task, Yanyan",
+    "Take a long bath or shower to relax, Yanyan",
+    "Plan a day trip to explore a nearby town or nature spot, Yanyan",
+    "Organize and declutter a room in your home, Yanyan",
+    "Start learning a new language or skill online, Yanyan",
+    "Plant some flowers or vegetables in your garden, Yanyan",
+    "Have a picnic in the park with friends or family, Yanyan",
+    "Attend a local community event or festival, Yanyan",
+    "Go stargazing on a clear night, Yanyan",
+    "Try a new restaurant or café in your area, Yanyan",
+    "Create a vision board with your goals and aspirations, Yanyan",
+    "Practice deep breathing exercises to reduce stress, Yanyan",
+    "Play a board game or card game with loved ones, Yanyan",
+    "Write down three things you're grateful for each day, Yanyan",
+    "Go for a walk or run outdoors to get some fresh air and exercise, Yanyan",
+    "Call or video chat with a friend or family member, Yanyan",
+    "Take photos of things that inspire you or bring you joy, Yanyan",
+    "Plan a weekend getaway to a nearby destination, Yanyan",
+    "Try a new hobby or craft, like knitting or woodworking, Yanyan"
+  ];
+
+  var responseDiv = document.getElementById('response');
+  var greetingDiv = document.getElementById('greeting');
+
+  function getRandomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  function displayResponse(response) {
+    responseDiv.innerHTML = "<p>" + response + "</p>";
+  }
+
+  function speakText(text) {
+    var speechSynthesis = window.speechSynthesis;
+    var utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  }
+
+  document.getElementById('advice-btn').addEventListener('click', function() {
+    var advice = getRandomItem(adviceList);
+    displayResponse("<strong>Advice:</strong> " + advice);
+    adviceList.splice(adviceList.indexOf(advice), 1); // Remove advice from list
+    greetingDiv.innerHTML = ""; // Remove greeting
+    speakText(advice); // Speak the advice
+  });
+
+  document.getElementById('activity-btn').addEventListener('click', function() {
+    var activity = getRandomItem(activityList);
+    displayResponse("<strong>Activity:</strong> " + activity);
+    activityList.splice(activityList.indexOf(activity), 1); // Remove activity from list
+    greetingDiv.innerHTML = ""; // Remove greeting
+    speakText(activity); // Speak the activity
+  });
+</script>
+
+</body>
+</html>
